@@ -25,16 +25,81 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/">Home</a>
                 </li>
-            </ul>
-        </div>
-    </div> 
-</div>
-</nav>
- 
+            <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="fashionDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Clothes
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="fashionDropdown">
 
+                        <li><a class="dropdown-item" href="#">Gents</a></li>
+                        <li><a class="dropdown-item" href="#">Ladies</a></li>
+
+                    </ul>
+                </li>
+
+                 <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="ShoeDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Shoes
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="ShoeDropdown">
+                        <li><a class="dropdown-item" href="#">Gents</a></li>
+                        <li><a class="dropdown-item" href="#">Ladies</a></li>
+                    </ul>
+                </li>
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="BeautyDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Makeup
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="BeautyDropdown">
+                        <li><a class="dropdown-item" href="#">Creams</a></li>
+                        <li><a class="dropdown-item" href="#">Brush</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+            <form class="d-flex" action="" method="get">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name=search>
+                <button class="btn btn-primary " type="submit">Search</button>
+            </form>
+            <div>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    
+                    <li class="nav-item dropdown mx-2">
+                        <a class="nav-link dropdown-toggle text-white " href="#" id="profileDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                           Grishma 
+                        </a>
+                        
+                    </li>
+
+                    <li class="nav-item mx-2">
+                        <a href="#" class="nav-link text-white"><span class="badge bg-danger">{{totalitem}}</span>
+                            Cart </a>
+                    </li>
+
+                
+                    <li class="nav-item mx-2">
+                        <a href="#" class="nav-link text-white">Login</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a href="#" class="nav-link text-white">Registration</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
 {% block banner_slider %} {% endblock banner_slider %}
 
 {% block main-content %} {% endblock main-content %}
+
+
 
 
 <footer class="bg-dark text-white pt-5 pb-4">
@@ -107,7 +172,7 @@
                 <div class="text-center text-md-right">
                     <ul class="list-unstyled list-inline">
                         <li class="list-inline-item">
-                            <a href="https://www.facebook.com/" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="fab fa-facebook"></i></a>
                         </li>
 
                         <li class="list-inline-item">
@@ -115,7 +180,7 @@
                         </li>
 
                         <li class="list-inline-item">
-                            <a href="https://www.instagram.com/" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="fab fa-instagram"></i></a>
                         </li>
 
                         <li class="list-inline-item">
