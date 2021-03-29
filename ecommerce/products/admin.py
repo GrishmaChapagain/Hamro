@@ -12,10 +12,10 @@ class CustomerModelAdmin(admin.ModelAdmin):
 class ProductModelAdmin(admin.ModelAdmin):
     list_display=['id','title','Price','Selling_Price','Description','Manufacturer','category','Image']
 
-# @ admin.register(Cart)
-# class CartModelAdmin(admin.ModelAdmin):
-#     list_display=['id','user','product','quantity']
+@ admin.register(Cart)
+class CartModelAdmin(admin.ModelAdmin):
+    list_display=['id','user','product','quantity']
 
-# @ admin.register(OrderPlaced)
-# class OrderPlacedModelAdmin(admin.ModelAdmin):
-#     list_display=['id','user','customer','product','quantity','Purchased_Date','Status']
+@ admin.register(OrderPlaced)
+class OrderPlacedModelAdmin(admin.ModelAdmin):
+    list_display=['id','user','customer','product','quantity','Purchased_Date','Status']
