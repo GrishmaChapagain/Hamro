@@ -8,10 +8,28 @@ from .forms import LoginForm, MyPasswordChangeForm, MyPasswordResetForm, MySetPa
 
 
 urlpatterns = [
-    path('', views.home),
+    path('', views.ProductView.as_view(), name='home'),
+    # path('product-detail/<int:pk>',views.ProductDetailView.as_view(), name='product-detail'),
     path('login/', auth_views.LoginView.as_view(template_name='pr/login.html',authentication_form=LoginForm), name='login'),
     path('registration/', views.CustomerRegistrationView.as_view(),name='customerregistration'),
     path('profile/', views.profile, name='profile'),
+    path('Gnts/', views.Gnts, name='Gnts'),
+    path('Gnts/<slug:data>', views.Gnts, name='Gntsdata'),
+
+    path('Ldes/', views.Ldes, name='Ldes'),
+    path('Ldes/<slug:data>', views.Ldes, name='Ldesdata'),
+
+    path('Brs/', views.Brs, name='Brs'),
+    path('Brs/<slug:data>', views.Brs, name='Brsdata'),
+
+    path('Pan/', views.Pan, name='Pan'),
+    path('Pan/<slug:data>', views.Pan, name='Pandata'),
+
+    path('Crm/', views.Crm, name='Crm'),
+    path('Crm/<slug:data>', views.Crm, name='Crmdata'),
+
+    path('Shirts/', views.Shirts, name='Shirts'),
+    path('Shirts/<slug:data>', views.Shirts, name='Shirtsdata'),
 
 
 

@@ -30,9 +30,12 @@ class Customer(models.Model):
 PASAL_CHOICES = (
 
     ('M', 'MAKEUP'),
-    ('F', 'FASHION_WEARS'),
-    ('E', 'Electronics'),
-    ('FO', 'FOODS'),   
+    ('C', 'Cream'),
+    ('P', 'Pants'),
+    ('BS', 'Brush'),
+    ('G', 'Gents'),
+    ('L', 'Ladies'),
+    ('T','Shirts')   
 )
 
 

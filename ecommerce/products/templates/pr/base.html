@@ -32,8 +32,8 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="fashionDropdown">
 
-                        <li><a class="dropdown-item" href="#">Gents</a></li>
-                        <li><a class="dropdown-item" href="#">Ladies</a></li>
+                        <li><a class="dropdown-item" href="{% url 'Pan' %}">Pants</a></li>
+                        <li><a class="dropdown-item" href="{% url 'Shirts' %}">T-shirts</a></li>
 
                     </ul>
                 </li>
@@ -44,8 +44,8 @@
                         Shoes
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="ShoeDropdown">
-                        <li><a class="dropdown-item" href="#">Gents</a></li>
-                        <li><a class="dropdown-item" href="#">Ladies</a></li>
+                        <li><a class="dropdown-item" href="{% url 'Gnts' %}">Gents</a></li>
+                        <li><a class="dropdown-item" href="{% url 'Ldes' %}">Ladies</a></li>
                     </ul>
                 </li>
 
@@ -56,8 +56,8 @@
                         Makeup
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="BeautyDropdown">
-                        <li><a class="dropdown-item" href="#">Creams</a></li>
-                        <li><a class="dropdown-item" href="#">Brush</a></li>
+                        <li><a class="dropdown-item" href="{% url 'Crm' %}">Creams</a></li>
+                        <li><a class="dropdown-item" href="{% url 'Brs' %}">Brush</a></li>
                     </ul>
                 </li>
 
@@ -104,7 +104,6 @@
 {% block banner_slider %} {% endblock banner_slider %}
 
 {% block main-content %} {% endblock main-content %}
-
 
 
 
@@ -178,19 +177,19 @@
                 <div class="text-center text-md-right">
                     <ul class="list-unstyled list-inline">
                         <li class="list-inline-item">
-                            <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="fab fa-facebook"></i></a>
+                            <a href="https://www.facebook.com/" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="fab fa-facebook"></i></a>
                         </li>
 
                         <li class="list-inline-item">
-                            <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="fab fa-twitter"></i></a>
+                            <a href="https://twitter.com/" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="fab fa-twitter"></i></a>
                         </li>
 
                         <li class="list-inline-item">
-                            <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.instagram.com" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="fab fa-instagram"></i></a>
                         </li>
 
                         <li class="list-inline-item">
-                            <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="fab fa-youtube"></i></a>
+                            <a href="https://www.youtube.com" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="fab fa-youtube"></i></a>
                         </li>
             </div>
         </div>
