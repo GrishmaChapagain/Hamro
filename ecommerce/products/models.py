@@ -46,7 +46,7 @@ class Product(models.Model):
     Description = models.TextField()
     Manufacturer = models.CharField(max_length=100)
     category = models.CharField(choices=PASAL_CHOICES, max_length=2)
-    Image = models.ImageField(upload_to='image')
+    Image = models.ImageField(upload_to='productimg')
 
     def __str__(self):
         return str(self.id)
