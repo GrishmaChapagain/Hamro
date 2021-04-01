@@ -31,8 +31,7 @@ class ProductDetailView(View):
             item_already_in_cart = Cart.objects.filter(
                 Q(product=product.id) & Q(user=request.user)).exists()
         return render(request, 'pr/productdetail.html', {'product': product,'totalitem': totalitem})
-        # return render(request, 'BC/productdetail.html', {'product': product, 'item_already_in_cart': item_already_in_cart, 'totalitem': totalitem})
-
+        
 
 
 
@@ -204,8 +203,8 @@ def Pan(request, data=None):
         Pant = Product.objects.filter(category='P').filter(Manufacturer=data)
     elif data == 'Below':
         Pant = Product.objects.filter(
-            category='P').filter(Selling_Price__lt=10000)
+            category='P').filter(Selling_Price__lt=3000)
     elif data == 'Above':
         Pant = Product.objects.filter(
-            category='P').filter(Selling_Price__gt=10000)
+            category='P').filter(Selling_Price__gt=3000)
     return render(request, 'pr/Pants.html', {'Pant': Pant, 'totalitem': totalitem})

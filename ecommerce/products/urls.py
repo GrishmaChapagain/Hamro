@@ -32,9 +32,6 @@ urlpatterns = [
     path('Shirts/<slug:data>', views.Shirts, name='Shirtsdata'),
 
 
-
-
-
     path('passwordchange/', auth_views.PasswordChangeView.as_view(
         template_name='pr/passwordchange.html', form_class=MyPasswordChangeForm, success_url='/passwordchangedone/'), name='passwordchange'),
     path('passwordchangedone/', auth_views.PasswordChangeView.as_view(
@@ -51,4 +48,4 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
   
        
-] 
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
