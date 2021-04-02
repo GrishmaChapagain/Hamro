@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.views import View
 from .forms import CustomerRegistrationForm
 from .models import Product, Cart
+from django.db.models import Q
+from django.views.generic import TemplateView
 
 
 
@@ -33,6 +35,15 @@ class ProductDetailView(View):
         return render(request, 'pr/productdetail.html', {'product': product,'totalitem': totalitem})
         
 
+class SearchView(TemplateView):
+    template_name = "pr/search.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        kw = self.request.GET.get("keyword")
+        results = Product.objects.filter(Q(title__icontains=kw))
+        context["results"] = results
+        return context
 
 
 
