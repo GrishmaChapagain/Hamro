@@ -219,3 +219,34 @@ def Pan(request, data=None):
         Pant = Product.objects.filter(
             category='P').filter(Selling_Price__gt=3000)
     return render(request, 'pr/Pants.html', {'Pant': Pant, 'totalitem': totalitem})
+
+
+def add_to_cart(request):
+    user = request.user
+    product_id = request.GET.get('prod_id')
+    product = Product.objects.get(id=product_id)
+    Cart(user=user, product=product).save()
+    return redirect('/cart')
+
+
+
+
+def show_cart(request):
+    totalitem = 0
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user=request.user))
+
+        user = request.user
+        cart = Cart.objects.filter(user=user)
+        amount = 0.0
+        shipping_amount = 100.0
+        cart_product = [p for p in Cart.objects.all() if p.user == user]
+        if cart_product:
+            for p in cart_product:
+                tempamount = (p.quantity * p.product.discounted_price)
+                amount += tempamount
+                totalamount = amount + shipping_amount
+            return render(request, 'pr/addtocart.html', {'carts': cart, 'totalamount': totalamount, 'amount': amount,'totalitem':totalitem})
+
+        else:
+            return render(request, 'pr/emptycart.html')
