@@ -21,6 +21,7 @@ urlpatterns = [
 
     path('Brs/', views.Brs, name='Brs'),
     path('Brs/<slug:data>', views.Brs, name='Brsdata'),
+    path('add-to-cart/', views.add_to_cart, name='add-to-cart'),
 
     path('Pan/', views.Pan, name='Pan'),
     path('Pan/<slug:data>', views.Pan, name='Pandata'),
@@ -30,6 +31,8 @@ urlpatterns = [
 
     path('Shirts/', views.Shirts, name='Shirts'),
     path('Shirts/<slug:data>', views.Shirts, name='Shirtsdata'),
+    path('cart/', views.show_cart, name='showcart'),
+    path('checkout/', views.checkout, name='checkout'),
 
 
     path('passwordchange/', auth_views.PasswordChangeView.as_view(

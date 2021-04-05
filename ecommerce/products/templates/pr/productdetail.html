@@ -23,11 +23,11 @@ Detail{% endblock title %} {% block main-content %}
       <br />
       {% if request.user.is_authenticated %} {% if item_already_in_cart %}
       <a
-        href="#"
+        href="{% url 'showcart' %}"
         class="btn btn-warning shadow px-5 py-2 ms-4"
         >Go To Cart</a
       >
-      {% else %}
+       {% else %}
       <form action="/add-to-cart" class="d-inline">
         <input
           type="hidden"
@@ -55,7 +55,7 @@ Detail{% endblock title %} {% block main-content %}
       {% endif %}
 
       {% comment %} <a
-        href="#"
+        href="{% url 'checkout' %}"
         class="btn btn-danger shadow px-5 py-2 ms-4">Buy Now</a > {% endcomment %}
       
     </div>

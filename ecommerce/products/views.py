@@ -8,9 +8,6 @@ from django.views.generic import TemplateView
 
 
 
-def add_to_cart(request):
- return render(request, 'pr/addtocart.html')
-
 def checkout(request):
  return render(request, 'pr/checkout.html')
 
@@ -32,7 +29,8 @@ class ProductDetailView(View):
             totalitem = len(Cart.objects.filter(user=request.user))
             item_already_in_cart = Cart.objects.filter(
                 Q(product=product.id) & Q(user=request.user)).exists()
-        return render(request, 'pr/productdetail.html', {'product': product,'totalitem': totalitem})
+        
+        return render(request, 'pr/productdetail.html', {'product': product, 'item_already_in_cart': item_already_in_cart, 'totalitem': totalitem})
         
 
 class SearchView(TemplateView):
@@ -239,11 +237,11 @@ def show_cart(request):
         user = request.user
         cart = Cart.objects.filter(user=user)
         amount = 0.0
-        shipping_amount = 100.0
+        shipping_amount = 70.0
         cart_product = [p for p in Cart.objects.all() if p.user == user]
         if cart_product:
             for p in cart_product:
-                tempamount = (p.quantity * p.product.discounted_price)
+                tempamount = (p.quantity * p.product.Selling_Price)
                 amount += tempamount
                 totalamount = amount + shipping_amount
             return render(request, 'pr/addtocart.html', {'carts': cart, 'totalamount': totalamount, 'amount': amount,'totalitem':totalitem})
