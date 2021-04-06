@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.views import View
 from .forms import CustomerRegistrationForm
 from .models import Product, Cart
 from django.db.models import Q
 from django.views.generic import TemplateView
+from django.http import JsonResponse
 
 
 
@@ -46,6 +47,7 @@ class SearchView(TemplateView):
 
 
 
+
 class ProductView(View):
     def get(self, request):
         totalitem = 0
@@ -65,6 +67,7 @@ class ProductView(View):
 
 
 
+
 class CustomerRegistrationView(View):
     def get(self, request):
         form = CustomerRegistrationForm()
@@ -74,8 +77,11 @@ class CustomerRegistrationView(View):
         form = CustomerRegistrationForm(request.POST)
         if form.is_valid():
             messages.success(request, 'Congratulations!! Registered Successfully')
-            form.save()
+            user=form.save()
+            Profile.objects.create(user=user,username=user.username)
         return render(request, 'pr/customerregistration.html', {'form': form, 'active': 'btn-primary'})
+
+
 
 
 
@@ -248,3 +254,75 @@ def show_cart(request):
 
         else:
             return render(request, 'pr/emptycart.html')
+
+
+
+def plus_cart(request):
+    if request.method == 'GET':
+        prod_id = request.GET['prod_id']
+        c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
+        c.quantity += 1
+        c.save()
+        amount = 0.0
+        shipping_amount = 100.0
+        total_amount = 0.0
+        cart_product = [p for p in Cart.objects.all() if p.user ==
+                        request.user]
+        for p in cart_product:
+            tempamount = (p.quantity * p.product.discounted_price)
+            amount += tempamount
+
+        data = {
+
+            'quantity': c.quantity,
+            'amount': amount,
+            'totalamount': amount + shipping_amount
+        }
+
+        return JsonResponse(data)
+
+
+def minus_cart(request):
+    if request.method == 'GET':
+        prod_id = request.GET['prod_id']
+        c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
+        c.quantity -= 1
+        c.save()
+        amount = 0.0
+        shipping_amount = 70.0
+        total_amount = 0.0
+        cart_product = [p for p in Cart.objects.all() if p.user ==
+                        request.user]
+        for p in cart_product:
+            tempamount = (p.quantity * p.product.Selling_Price)
+            amount += tempamount
+
+        data = {
+
+            'quantity': c.quantity,
+            'amount': amount,
+            'totalamount': amount + shipping_amount
+        }
+
+        return JsonResponse(data)
+
+
+
+def remove_cart(request):
+    if request.method == 'GET':
+        prod_id = request.GET['prod_id']
+        c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
+        c.delete()
+        amount = 0.0
+        shipping_amount = 70.0
+        total_amount = 0.0
+        cart_product = [p for p in Cart.objects.all() if p.user ==
+                        request.user]
+        for p in cart_product:
+            tempamount = (p.quantity * p.product.Selling_Price)
+            amount += tempamount
+        data = {
+            'amount': amount,
+            'totalamount': amount + shipping_amount
+        }
+        return JsonResponse(data)
