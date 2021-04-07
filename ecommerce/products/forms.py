@@ -5,10 +5,15 @@ from django.utils.translation import gettext, gettext_lazy as _
 from django.contrib.auth import password_validation
 from .models import Customer
 from django.forms import ModelForm
+from .models import Profile
 
 
 
-
+class ProfileForm(ModelForm):
+    class Meta:
+        model=Profile
+        fields='__all__'
+        exclude= ['user','username']
 
 class ProductForm(forms.Form):
     name= forms.CharField(max_length=200)
@@ -18,7 +23,7 @@ class ProductForm(forms.Form):
 
 class CustomerRegistrationForm(UserCreationForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    password2 = forms.CharField(label='Confirm Password (again)',
+    password2 = forms.CharField(label='Confirm Password ',
                                 widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     email = forms.CharField(required=True, widget=forms.EmailInput(
         attrs={'class': 'form-control'}))
@@ -29,6 +34,7 @@ class CustomerRegistrationForm(UserCreationForm):
         labels = {'email': 'Email'}
         widgets = {'username': forms.TextInput(
             attrs={'class': 'form-control'})}
+
 
 
 class LoginForm(AuthenticationForm):
@@ -58,3 +64,10 @@ class MySetPasswordForm(SetPasswordForm):
 
     new_password2 = forms.CharField(label=_("Confirm New Password"), strip=False, widget=forms.PasswordInput(
         attrs={'autocomplete': 'new-password', 'class': 'form-control'}))
+
+
+class CustomerProfileForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ['name', 'place', 'area', 'Pradesh']
+        widgets = {'name': forms.TextInput(attrs={'class': 'form-control'}), 'place': forms.TextInput(attrs={'class': 'form-control'}), 'area': forms.TextInput( attrs={'class': 'form-control'}), 'Pradesh': forms.Select(attrs={'class': 'form-control'})}

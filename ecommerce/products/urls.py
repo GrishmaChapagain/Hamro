@@ -12,7 +12,6 @@ urlpatterns = [
     path('product-detail/<int:pk>',views.ProductDetailView.as_view(), name='product-detail'),
     path('login/', auth_views.LoginView.as_view(template_name='pr/login.html',authentication_form=LoginForm), name='login'),
     path('registration/', views.CustomerRegistrationView.as_view(),name='customerregistration'),
-    path('profile/', views.profile, name='profile'),
     path('Gnts/', views.Gnts, name='Gnts'),
     path('Gnts/<slug:data>', views.Gnts, name='Gntsdata'),
 
@@ -33,6 +32,8 @@ urlpatterns = [
     path('Shirts/<slug:data>', views.Shirts, name='Shirtsdata'),
     path('cart/', views.show_cart, name='showcart'),
     path('checkout/', views.checkout, name='checkout'),
+    path('profile/', views.ProfileView, name='profile'),
+    path('profile1/', views.user_account, name='profile1'),
 
 
     path('passwordchange/', auth_views.PasswordChangeView.as_view(
@@ -54,6 +55,8 @@ urlpatterns = [
     path('pluscart/', views.plus_cart, name='pluscart'),
     path('minuscart/', views.minus_cart, name='minuscart'),
     path('removecart/', views.remove_cart, name='removecart'),
+    path('deleteaddress/<int:id>/', views.delete_address, name='deleteaddress'),
+    path('<int:id>/',views.update_address.as_view(),name="updateaddress"),
   
        
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,16 +1,34 @@
 from django.shortcuts import render,redirect
 from django.views import View
-from .forms import CustomerRegistrationForm
+from .forms import CustomerRegistrationForm, CustomerProfileForm
 from .models import Product, Cart
+from django.contrib import messages
 from django.db.models import Q
 from django.views.generic import TemplateView
 from django.http import JsonResponse
+from .models import Customer
+from django.http.response import HttpResponseRedirect
 
 
 
 
 def checkout(request):
- return render(request, 'pr/checkout.html')
+    totalitem = 0
+    user = request.user
+    add = Customer.objects.filter(user=user)
+    cart_items = Cart.objects.filter(user=user)
+    amount = 0.0
+    shipping_amount = 70
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user=request.user))
+
+    cart_product = [p for p in Cart.objects.all() if p.user == request.user]
+    if cart_product:
+        for p in cart_product:
+            tempamount = (p.quantity * p.product.Selling_Price)
+            amount += tempamount
+        totalamount = amount + shipping_amount
+    return render(request, 'pr/checkout.html', {'add': add, 'totalamount': totalamount, 'cart_items': cart_items, 'totalitem': totalitem})
 
 def customerregistration(request):
  return render(request, 'pr/customerregistration.html')
@@ -106,8 +124,7 @@ def loginVew(request):
 
 
 
-def profile(request):
- return render(request, 'pr/profile.html')
+
 
 
 
@@ -235,6 +252,10 @@ def add_to_cart(request):
 
 
 
+
+
+
+
 def show_cart(request):
     totalitem = 0
     if request.user.is_authenticated:
@@ -264,12 +285,12 @@ def plus_cart(request):
         c.quantity += 1
         c.save()
         amount = 0.0
-        shipping_amount = 100.0
+        shipping_amount = 70.0
         total_amount = 0.0
         cart_product = [p for p in Cart.objects.all() if p.user ==
                         request.user]
         for p in cart_product:
-            tempamount = (p.quantity * p.product.discounted_price)
+            tempamount = (p.quantity * p.product.Selling_Price)
             amount += tempamount
 
         data = {
@@ -326,3 +347,58 @@ def remove_cart(request):
             'totalamount': amount + shipping_amount
         }
         return JsonResponse(data)
+
+
+def ProfileView(request):
+    if request.method=='POST':
+        fm= CustomerProfileForm(request.POST)
+        if fm.is_valid():
+            usr = request.user
+            name=fm.cleaned_data['name']
+            place=fm.cleaned_data['place']
+            area=fm.cleaned_data['area']
+            Pradesh=fm.cleaned_data['Pradesh']
+            
+            
+            reg=Customer(user=usr,name=name,place=place,area=area,Pradesh=Pradesh)
+    
+            reg.save()
+            fm= CustomerProfileForm()
+            
+    else:
+        fm= CustomerProfileForm()
+    stud=Customer.objects.all()
+    print(stud)
+    return render(request,'pr/profile.html',{'form':fm,'stu':stud})
+
+
+def delete_address(request,id):
+    if request.method=='POST':
+        pi=Customer.objects.get(pk=id)
+        pi.delete()
+        return HttpResponseRedirect('/profile')
+
+class update_address(View):
+    def get(self,request,id):
+        pi=Customer.objects.get(pk=id)
+        fm=CustomerProfileForm(instance=pi)
+        return render(request,'pr/Updateaddress.html',{'form':fm})
+
+    def post(self,request,id):
+       pi=Customer.objects.get(pk=id)
+       fm=CustomerProfileForm(request.POST,instance=pi)
+       if fm.is_valid():
+         fm.save()
+       return HttpResponseRedirect('/profile')
+
+
+def user_account(request):
+    profile = request.user.profile
+    form = ProfileForm(instance=profile)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('/profile1')
+    context = {'form': form}
+    return render(request, 'pr/profile1.html', context)

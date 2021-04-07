@@ -51,7 +51,6 @@ class Product(models.Model):
     def __str__(self):
         return str(self.id)
 
-
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -59,6 +58,10 @@ class Cart(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+    @property
+    def total_cost(self):
+        return self.quantity * self.product.Selling_Price
 
 
 
@@ -79,6 +82,17 @@ class OrderPlaced(models.Model):
     quantity = models.PositiveIntegerField(default=1)
     Purchased_Date = models.DateTimeField(auto_now_add=True)
     Status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
+
+
+class Profile(models.Model):
+    user=models.OneToOneField(User, null =True, on_delete=models.CASCADE)
+    firstname=models.CharField(max_length=200,null=True)
+    lastname=models.CharField(max_length=200,null=True)
+    phone=models.CharField(max_length=10,null=True)
+    username=models.CharField(max_length=200,null=True)
+    email=models.EmailField()
+    profile_pic=models.FileField(upload_to='static/userimage')
+    created_date=models.DateTimeField(auto_now_add=True)
 
 
 

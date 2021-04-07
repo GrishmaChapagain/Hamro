@@ -1,4 +1,4 @@
-{% extends 'pr/base.html' %} {% load static %} {% block title %}Buy Now 
+{% extends 'pr/base.html' %} {% load static %} {% block title %}Checkout
 {% endblock title %} {% block main-content %}
 <div class="container">
   <div class="row mt-5">
@@ -14,8 +14,35 @@
         </div>
       </div>
       {% endfor %}
-      <p class="fw-bold">Total Cost + Rs.70 = {{totalamount}} </p>
+      <p class="fw-bold">Total Cost + Rs.70 Delivery Charge = {{totalamount}} </p>
       
+</div>
+    <div class="col-sm-4 offset-sm-1">
+     <a href="{% url 'profile' %}" class="btn btn-primary">Add Address</a>
+      <h4>Select Shipping Address</h4>
+      <hr>
+      <form action="/paymentdone" id="myform">
+       {% for ad in add %}
+        <div class="card">
+          <div class="card-body">
+            <h5>{{ad.name}}</h5>
+            <p>{{ad.place}}, {{ad.area}}, {{ad.Pradesh}}</p>
+          </div>
+        </div>
+        <div class="form-check mt-2 mb-5">
+          <input class="form-check-input" type="radio" name="custid"
+           id="custadd{{forloop.counter}}" value="{{ad.id}}" >
+
+          <label class="form-check-label fw-bold" for="custadd{{forloop.counter}}">
+            Address: {{forloop.counter}}
+          </label>
+        </div>
+        {% endfor %}
+        <div class="text-end">
+    <button type="submit" class="btn btn-success mt-2 px-5 fw-bold">Continue</button>       
+        </div>
+      </form>
     </div>
-    
+  </div>
+</div>
 {% endblock main-content %}
