@@ -12,6 +12,7 @@ urlpatterns = [
     path('product-detail/<int:pk>',views.ProductDetailView.as_view(), name='product-detail'),
     path('login/', auth_views.LoginView.as_view(template_name='pr/login.html',authentication_form=LoginForm), name='login'),
     path('registration/', views.CustomerRegistrationView.as_view(),name='customerregistration'),
+    path('orders/', views.orders, name='orders'),
     path('Gnts/', views.Gnts, name='Gnts'),
     path('Gnts/<slug:data>', views.Gnts, name='Gntsdata'),
 
@@ -34,6 +35,7 @@ urlpatterns = [
     path('checkout/', views.checkout, name='checkout'),
     path('profile/', views.ProfileView, name='profile'),
     path('profile1/', views.user_account, name='profile1'),
+    path('paymentdone/', views.payment_done, name='paymentdone'),
 
 
     path('passwordchange/', auth_views.PasswordChangeView.as_view(

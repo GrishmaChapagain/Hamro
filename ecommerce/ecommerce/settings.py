@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'products.apps.ProductsConfig',
     
+    'bootstrapform'
+    
 ]
 
 MIDDLEWARE = [

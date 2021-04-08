@@ -7,6 +7,8 @@ from django.db.models import Q
 from django.views.generic import TemplateView
 from django.http import JsonResponse
 from .models import Customer
+from .models import Profile
+from .forms import ProfileForm
 from django.http.response import HttpResponseRedirect
 
 
@@ -18,7 +20,7 @@ def checkout(request):
     add = Customer.objects.filter(user=user)
     cart_items = Cart.objects.filter(user=user)
     amount = 0.0
-    shipping_amount = 70
+    shipping_amount = 70.0
     if request.user.is_authenticated:
         totalitem = len(Cart.objects.filter(user=request.user))
 
@@ -30,27 +32,6 @@ def checkout(request):
         totalamount = amount + shipping_amount
     return render(request, 'pr/checkout.html', {'add': add, 'totalamount': totalamount, 'cart_items': cart_items, 'totalitem': totalitem})
 
-def customerregistration(request):
- return render(request, 'pr/customerregistration.html')
-
-def home(request):
- return render(request, 'pr/home.html')
-
-def orders(request):
- return render(request, 'pr/orders.html')
-
-class ProductDetailView(View):
-    def get(self, request, pk):
-        totalitem = 0
-        product = Product.objects.get(pk=pk)
-        item_already_in_cart = False
-        if request.user.is_authenticated:
-            totalitem = len(Cart.objects.filter(user=request.user))
-            item_already_in_cart = Cart.objects.filter(
-                Q(product=product.id) & Q(user=request.user)).exists()
-        
-        return render(request, 'pr/productdetail.html', {'product': product, 'item_already_in_cart': item_already_in_cart, 'totalitem': totalitem})
-        
 
 class SearchView(TemplateView):
     template_name = "pr/search.html"
@@ -63,7 +44,15 @@ class SearchView(TemplateView):
         return context
 
 
+def orders(request):
+    totalitem = 0
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user=request.user))
+    op = OrderPlaced.objects.filter(user=request.user)
+    return render(request, 'pr/orders.html', {'order_placed': op, 'totalitem': totalitem})
 
+def product_detail(request):
+     return render(request, 'pr/productdetail.html')
 
 
 class ProductView(View):
@@ -79,7 +68,16 @@ class ProductView(View):
             totalitem = len(Cart.objects.filter(user=request.user))
         return render(request, 'pr/home.html', { 'LD': LD,'GT': GT,'CM': CM ,'Bh':Bh,'Pant':Pant,'Ss':Ss,'totalitem': totalitem})
 
-
+class ProductDetailView(View):
+    def get(self, request, pk):
+        totalitem = 0
+        product = Product.objects.get(pk=pk)
+        item_already_in_cart = False
+        if request.user.is_authenticated:
+            totalitem = len(Cart.objects.filter(user=request.user))
+            item_already_in_cart = Cart.objects.filter(
+                Q(product=product.id) & Q(user=request.user)).exists()
+        return render(request, 'pr/productdetail.html', {'product': product, 'item_already_in_cart': item_already_in_cart, 'totalitem': totalitem})
 
 
 
@@ -124,7 +122,33 @@ def loginVew(request):
 
 
 
-
+def login_user(request):
+    if request.user.is_authenticated:
+        return render(request, 'pr/home.html')
+    else:
+        if request.method == 'POST':
+            form = LoginForm(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+                user = authenticate(request, username=data['username'],
+                                    password=data['password'])
+                if user is not None:
+                    if not user.is_staff:
+                        login(request, user)
+                        
+                        return redirect('home')
+                    elif user.is_staff:
+                        login(request, user)
+                        return redirect('/admin-dashboard')
+                else:
+                    messages.add_message(request, messages.ERROR,
+                                         'Username or Password is Invalid')
+                    return render(request, 'pr/login.html', {'form': form})
+    form = LoginForm()
+    context = {
+        'form': LoginForm
+    }
+    return render(request, 'pr/login.html', context)
 
 
 
@@ -402,3 +426,20 @@ def user_account(request):
             return redirect('/profile1')
     context = {'form': form}
     return render(request, 'pr/profile1.html', context)
+
+
+def payment_done(request):
+    totalitem = 0
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user=request.user))
+    user = request.user
+    custid = request.GET.get('custid')
+    customer = Customer.objects.get(id=custid)
+    cart = Cart.objects.filter(user=user)
+    for c in cart:
+        OrderPlaced(user=user, customer=customer,
+                    product=c.product, quantity=c.quantity).save()
+        c.delete()
+    return redirect("orders")
+
+    return redirect("orders", {'totalitem': totalitem})

@@ -75,13 +75,32 @@ STATUS_CHOICES = (
 )
 
 
+
+
 class OrderPlaced(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200, null=True)
+    place = models.CharField(max_length=200, null=True)
+    area = models.CharField(max_length=200, null=True)
+    Pradesh = models.CharField(choices=PRADESH_CHOICE, max_length=50, null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
-    Purchased_Date = models.DateTimeField(auto_now_add=True)
-    Status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
+    ordered_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(
+        max_length=50, choices=STATUS_CHOICES, default='Pending')
+
+    
+    @property
+    def total_cost(self):
+        return self.quantity * self.product.Selling_Price
+
+    @property
+    def total_amount(self):
+
+        return (self.quantity * self.product.Selling_Price)+70
+
+
 
 
 class Profile(models.Model):
