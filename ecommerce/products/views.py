@@ -10,7 +10,7 @@ from .models import Customer
 from .models import Profile
 from .forms import ProfileForm
 from django.http.response import HttpResponseRedirect
-
+from .models import OrderPlaced
 
 
 
