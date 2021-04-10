@@ -1,17 +1,71 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.views import View
-from .forms import CustomerRegistrationForm, CustomerProfileForm
-from .models import Product, Cart
+from .models import Customer, Product, Cart, OrderPlaced,STATUS_CHOICES
+from .forms import CustomerRegistrationForm, CustomerProfileForm, LoginForm, ProductForm
 from django.contrib import messages
 from django.db.models import Q
-from django.views.generic import TemplateView
 from django.http import JsonResponse
-from .models import Customer
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate,login
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView, CreateView, DetailView, TemplateView
 from .models import Profile
 from .forms import ProfileForm
 from django.http.response import HttpResponseRedirect
-from .models import OrderPlaced
+from .auth import admin_only, unauthenticated_user, user_only
+from django.urls import reverse_lazy, reverse
 
+
+#admins
+
+@method_decorator(admin_only , name='dispatch')
+class AdminProductListView(ListView):
+    template_name = "admins/adminproductlist.html"
+    queryset = Product.objects.all().order_by("-id")
+    context_object_name = "allproducts"
+
+
+@method_decorator(admin_only , name='dispatch')
+class AdminProductCreateView(CreateView):
+    template_name = "admins/adminproductcreate.html"
+    form_class = ProductForm
+    success_url = reverse_lazy("adminproductlist")
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+@method_decorator(admin_only , name='dispatch')
+class AdminOrderDetailView(DetailView):
+    template_name = "admins/adminorderdetail.html"
+    model = OrderPlaced
+    context_object_name = "ord_obj"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["allstatus"] = STATUS_CHOICES
+        return context
+
+# @method_decorator(admin_only , name='dispatch')
+def AdminOrderListView(request):
+    template_name = "admins/adminorderlist.html"
+    allorders = OrderPlaced.objects.all().order_by("-id")
+    customer=Customer.objects.all().order_by("-id")
+    context={'allorders':allorders,"customer":customer}
+    return render(request,template_name,context)
+
+
+
+@method_decorator(admin_only , name='dispatch') 
+class AdminOrderStatuChangeView(View):
+    def post(self, request,*args, **kwargs):
+        order_id = self.kwargs["pk"]
+        print(order_id)
+        order_obj = OrderPlaced.objects.get(id=order_id)
+        new_status = request.POST.get("status")
+        order_obj.status = new_status
+        order_obj.save()
+        return redirect(reverse_lazy("adminorderdetail", kwargs={"pk": order_id}))
 
 
 def checkout(request):
@@ -44,6 +98,7 @@ class SearchView(TemplateView):
         return context
 
 
+@login_required
 def orders(request):
     totalitem = 0
     if request.user.is_authenticated:
@@ -100,28 +155,28 @@ class CustomerRegistrationView(View):
 
 
 
+# @unauthenticated_user
+# def loginVew(request):
+#     if request.user.is_authenticated:
+#         return redirect('home')
+#     else:
+#         if request.method == 'POST':
+#             username = request.POST.get('username')
+#             password = request.POST.get('password')
 
-def loginVew(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-    else:
-        if request.method == 'POST':
-            username = request.POST.get('username')
-            password = request.POST.get('password')
+#             user = authenticate(request, username=username, password=password)
 
-            user = authenticate(request, username=username, password=password)
+#             if user is not None:
+#                 login(request, user)
+#                 return redirect('home')
+#             else:
+#                 messages.info(request, 'Username OR password is incorrect')
 
-            if user is not None:
-                login(request, user)
-                return redirect('home')
-            else:
-                messages.info(request, 'Username OR password is incorrect')
-
-        context = {}
-        return render(request, 'pr/login.html', context)
+#         context = {}
+#         return render(request, 'pr/login.html', context)
 
 
-
+@unauthenticated_user
 def login_user(request):
     if request.user.is_authenticated:
         return render(request, 'pr/home.html')
@@ -391,7 +446,7 @@ def ProfileView(request):
             
     else:
         fm= CustomerProfileForm()
-    stud=Customer.objects.all()
+    stud = Customer.objects.filter(user=request.user)
     print(stud)
     return render(request,'pr/profile.html',{'form':fm,'stu':stud})
 
@@ -427,7 +482,7 @@ def user_account(request):
     context = {'form': form}
     return render(request, 'pr/profile1.html', context)
 
-
+@login_required
 def payment_done(request):
     totalitem = 0
     if request.user.is_authenticated:

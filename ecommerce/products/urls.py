@@ -1,4 +1,5 @@
 from django.urls import path
+from django.contrib.auth.forms import AuthenticationForm
 from . import views
 from django.conf.urls.static import static
 from django.conf import settings
@@ -10,7 +11,7 @@ from .forms import LoginForm, MyPasswordChangeForm, MyPasswordResetForm, MySetPa
 urlpatterns = [
     path('', views.ProductView.as_view(), name='home'),
     path('product-detail/<int:pk>',views.ProductDetailView.as_view(), name='product-detail'),
-    path('login/', auth_views.LoginView.as_view(template_name='pr/login.html',authentication_form=LoginForm), name='login'),
+    path('login/',views.login_user, name='login'),
     path('registration/', views.CustomerRegistrationView.as_view(),name='customerregistration'),
     path('orders/', views.orders, name='orders'),
     path('Gnts/', views.Gnts, name='Gnts'),
@@ -44,7 +45,7 @@ urlpatterns = [
         template_name='pr/passwordchangedone.html'), name='passwordchangedone'),
 
     path('password-reset/', auth_views.PasswordResetView.as_view(template_name='pr/password_reset.html',
-                                                                 form_class=MyPasswordResetForm), name='password_reset'),
+                                                                    form_class=MyPasswordResetForm), name='password_reset'),
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(
         template_name='pr/password_reset_done.html'), name='password_reset_done'),
     path('password-reset-confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
@@ -58,7 +59,23 @@ urlpatterns = [
     path('minuscart/', views.minus_cart, name='minuscart'),
     path('removecart/', views.remove_cart, name='removecart'),
     path('deleteaddress/<int:id>/', views.delete_address, name='deleteaddress'),
-    path('<int:id>/',views.update_address.as_view(),name="updateaddress"),
+    path('updateaddress<int:id>/',views.update_address.as_view(),name="updateaddress"),
+
+
+
+
+
+
+    # admins
+    path("admin-product/list/", views.AdminProductListView.as_view(),
+         name="adminproductlist"),
+    path("admin-all-orders333333333/", views.AdminOrderListView, name="adminorderlist"),
+    path("admin-product/add/", views.AdminProductCreateView.as_view(),
+         name="adminproductcreate"),
+    path("admin-order/<int:pk>/", views.AdminOrderDetailView.as_view(),
+         name="adminorderdetail"),
+    path("admin-order-<int:pk>-change/",
+         views.AdminOrderStatuChangeView.as_view(), name="adminorderstatuschange"),
   
        
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
