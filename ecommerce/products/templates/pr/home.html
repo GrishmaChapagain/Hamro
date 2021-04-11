@@ -38,15 +38,39 @@
 
 {% block main-content %}
 
+
+<div class="m-3">
+ <h2>Pants</h2>
+ <div class="owl-carousel" id="slider1">
+ {% for f in Pant %}
+  <a href="{% url 'product-detail' f.id %}" class="btn"><div class="item"><img src="{{f.Image.url}}" alt="not" height="300px"><span class="fw-bold">{{f.title}}</span><br><span class="fs-5">Rs. {{f.Selling_Price}}</span></div></a>
+  {% endfor %}
+</div>
+
+
 <div class="m-3">
   <h2>Pants</h2>
-
-
-  <div>
+  <div class="owl-carousel" id="slider1">
   {% for f in Pant %}
    <a href="{% url 'product-detail' f.id %}" class="btn"><div class="item"><img src="{{f.Image.url}}" alt="not" height="300px"><span class="fw-bold">{{f.title}}</span><br><span class="fs-5">Rs. {{f.Selling_Price}}</span></div></a>
    {% endfor %}
- </div> 
+ </div>
+
+ <div class="m-3">
+  <h2>Pants</h2>
+  <div class="owl-carousel" id="slider1">
+  {% for f in Pant %}
+   <a href="{% url 'product-detail' f.id %}" class="btn"><div class="item"><img src="{{f.Image.url}}" alt="not" height="300px"><span class="fw-bold">{{f.title}}</span><br><span class="fs-5">Rs. {{f.Selling_Price}}</span></div></a>
+   {% endfor %}
+ </div>
+
+
+ <div class="m-3">
+  <h2>Pants</h2>
+  <div class="owl-carousel" id="slider1">
+  {% for f in Pant %}
+   <a href="{% url 'product-detail' f.id %}" class="btn"><div class="item"><img src="{{f.Image.url}}" alt="not" height="300px"><span class="fw-bold">{{f.title}}</span><br><span class="fs-5">Rs. {{f.Selling_Price}}</span></div></a>
+   {% endfor %}
  </div>
 
 
