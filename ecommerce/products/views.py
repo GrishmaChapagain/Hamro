@@ -46,7 +46,7 @@ class AdminOrderDetailView(DetailView):
         context["allstatus"] = STATUS_CHOICES
         return context
 
-# @method_decorator(admin_only , name='dispatch')
+
 def AdminOrderListView(request):
     template_name = "admins/adminorderlist.html"
     allorders = OrderPlaced.objects.all().order_by("-id")
