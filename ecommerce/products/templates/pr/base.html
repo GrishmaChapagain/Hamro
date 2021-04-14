@@ -105,6 +105,13 @@
                         <a href="{% url 'customerregistration' %}" class="nav-link text-white">Registration</a>
                     </li>
             {% endif %}
+
+            {% if request.user.is_staff %}
+ 
+            <li class="nav-item mx-2">
+             <a href="{% url 'dashboard' %}" class="btn btn-primary">Dashboard </a>
+            </li>
+            {% endif %}
           </ul>
          </div>
        </div>

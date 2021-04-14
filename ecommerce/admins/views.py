@@ -115,3 +115,12 @@ class update_product(View):
         if fm.is_valid():
             fm.save()
         return HttpResponseRedirect('/admin-product/list/')
+
+       
+@admin_only
+@login_required
+def delete_order(request,id):
+    if request.method=='POST':
+        pi=OrderPlaced.objects.get(pk=id)
+        pi.delete()
+        return HttpResponseRedirect('/admin-all-orders333333333/')

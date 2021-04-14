@@ -16,6 +16,7 @@ urlpatterns=[
          name="adminproductcreate"),
     path('updateproduct<int:id>/',
          views.update_product.as_view(), name="updateproduct"),
-   path('deleteproduct/<int:id>/', views.delete_product, name='deleteproduct')
+    path('deleteproduct/<int:id>/', views.delete_product, name='deleteproduct'),
+    path('deleteorder/<int:id>/', views.delete_order, name='deleteorder'),
     
 ]
