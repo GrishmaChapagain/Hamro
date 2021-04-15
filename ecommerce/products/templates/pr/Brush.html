@@ -1,12 +1,12 @@
  {% extends 'pr/base.html' %}
 {% load static %}
-{% block title %}Brushes{% endblock title %}
+{% block title %}Brush{% endblock title %}
 {% block main-content %}
 <div class="container my-5">
  <div class="row">
   <div class="col-sm-3">
    <div class="list-group">
-   <a href="{% url 'Brs' %}" class="list-group-item list-group-item-action" aria-current='true'>All Brushes</a>
+   <a href="{% url 'Brs' %}" class="list-group-item list-group-item-action" aria-current='true'>Brush</a>
    {% comment %} <a href="{% url 'bootdata' 'Alpinestar' %}" class="list-group-item list-group-item-action" aria-current='true'>Alpinestar</a> {% endcomment %}
 
    <a href="{% url 'Brsdata' 'Below' %}" class="list-group-item list-group-item-action" aria-current='true'>Below Rs. 2500</a>

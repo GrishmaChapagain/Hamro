@@ -223,10 +223,10 @@ def Shirts(request, data=None):
         Ss = Product.objects.filter(category='W').filter(Manufacturer=data)
     elif data == 'Below':
         Ss = Product.objects.filter(
-            category='W').filter(Selling_Price__lt=10000)
+            category='W').filter(Selling_Price__lt=1000)
     elif data == 'Above':
         Ss = Product.objects.filter(
-            category='W').filter(Selling_Price__gt=10000)
+            category='W').filter(Selling_Price__gt=1000)
     return render(request, 'pr/T-Shirts.html', {'Ss': Ss, 'totalitem': totalitem})
 
 
@@ -242,10 +242,10 @@ def Gnts(request, data=None):
         GT = Product.objects.filter(category='G').filter(Manufacturer=data)
     elif data == 'Below':
         GT = Product.objects.filter(
-            category='G').filter(Selling_Price__lt=10000)
+            category='G').filter(Selling_Price__lt=3000)
     elif data == 'Above':
         GT = Product.objects.filter(
-            category='G').filter(Selling_Price__gt=10000)
+            category='G').filter(Selling_Price__gt=3000)
     return render(request, 'pr/Gents.html', {'GT': GT, 'totalitem': totalitem})
 
 
@@ -260,10 +260,10 @@ def Ldes(request, data=None):
         LD = Product.objects.filter(category='L').filter(Manufacturer=data)
     elif data == 'Below':
         LD = Product.objects.filter(
-            category='L').filter(Selling_Price__lt=10000)
+            category='L').filter(Selling_Price__lt=3000)
     elif data == 'Above':
         LD = Product.objects.filter(
-            category='L').filter(Selling_Price__gt=10000)
+            category='L').filter(Selling_Price__gt=3000)
     return render(request, 'pr/Ladies.html', {'LD': LD, 'totalitem': totalitem})
 
 
@@ -274,14 +274,14 @@ def Brs(request, data=None):
         totalitem = len(Cart.objects.filter(user=request.user))
     if data == None:
         Bh = Product.objects.filter(category='BS')
-    elif data == 'Goldstar' or data == 'Nike':
+    elif data == 'Brush':
         Bh = Product.objects.filter(category='BS').filter(Manufacturer=data)
     elif data == 'Below':
         Bh = Product.objects.filter(
-            category='BS').filter(Selling_Price__lt=10000)
+            category='BS').filter(Selling_Price__lt=2500)
     elif data == 'Above':
         Bh = Product.objects.filter(
-            category='BS').filter(Selling_Price__gt=10000)
+            category='BS').filter(Selling_Price__gt=2500)
     return render(request, 'pr/Brush.html', {'Bh': Bh, 'totalitem': totalitem})
 
 
@@ -292,14 +292,14 @@ def Crm(request, data=None):
         totalitem = len(Cart.objects.filter(user=request.user))
     if data == None:
         CM = Product.objects.filter(category='C')
-    elif data == 'Goldstar' or data == 'Nike':
+    elif data == 'Moisturizer' or data == 'Sunscream':
         CM = Product.objects.filter(category='C').filter(Manufacturer=data)
     elif data == 'Below':
         CM = Product.objects.filter(
-            category='C').filter(Selling_Price__lt=10000)
+            category='C').filter(Selling_Price__lt=1500)
     elif data == 'Above':
         CM = Product.objects.filter(
-            category='C').filter(Selling_Price__gt=10000)
+            category='C').filter(Selling_Price__gt=1500)
     return render(request, 'pr/Cream.html', {'CM': CM, 'totalitem': totalitem})
 
 
