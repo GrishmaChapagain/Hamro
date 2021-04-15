@@ -27,7 +27,16 @@
     <link rel="icon" href="{% static 'all/images/logo/logoo.png' %}">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+
+<style>
+.dark-mode {
+ background-color: black;
+ color: white;
+}
+</style>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-success sticky-top">
     <div class="container">
         <div class="collapse navbar-collapse" id="navContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-2">
@@ -116,6 +125,8 @@
          </div>
        </div>
      </div>
+     <!-- <button onclick="myFunction()">Toggle dark mode</button> -->
+     <img src="{% static 'all/images/sun.png' %}" id="icon" onclick="myFunction()">
     </nav>
     {% block banner_slider %} {% endblock banner_slider %}
     {% block main-content %} {% endblock main-content %}
@@ -225,6 +236,15 @@
 <script src="{% static 'all/css/style.css' %}"></script>
 <script src="{% static 'all/css/dark-mode.css' %}"></script>
 <script src="{% static 'all/js/dark-mode-switch.min.js' %}"></script>
+
+
+
+<script>
+    function myFunction() {
+       var element = document.body;
+       element.classList.toggle("dark-mode");
+    }
+    </script>
 
 
 </body>
