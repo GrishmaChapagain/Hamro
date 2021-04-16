@@ -155,25 +155,7 @@ class CustomerRegistrationView(View):
 
 
 
-# @unauthenticated_user
-# def loginVew(request):
-#     if request.user.is_authenticated:
-#         return redirect('home')
-#     else:
-#         if request.method == 'POST':
-#             username = request.POST.get('username')
-#             password = request.POST.get('password')
 
-#             user = authenticate(request, username=username, password=password)
-
-#             if user is not None:
-#                 login(request, user)
-#                 return redirect('home')
-#             else:
-#                 messages.info(request, 'Username OR password is incorrect')
-
-#         context = {}
-#         return render(request, 'pr/login.html', context)
 
 
 @unauthenticated_user
@@ -218,15 +200,15 @@ def Shirts(request, data=None):
     if request.user.is_authenticated:
         totalitem = len(Cart.objects.filter(user=request.user))
     if data == None:
-        Ss = Product.objects.filter(category='W')
+        Ss = Product.objects.filter(category='T')
     elif data == 'Long_Tshirt' or data == 'Crop_Tshirt':
-        Ss = Product.objects.filter(category='W').filter(Manufacturer=data)
+        Ss = Product.objects.filter(category='T').filter(Manufacturer=data)
     elif data == 'Below':
         Ss = Product.objects.filter(
-            category='W').filter(Selling_Price__lt=1000)
+            category='T').filter(Selling_Price__lt=1000)
     elif data == 'Above':
         Ss = Product.objects.filter(
-            category='W').filter(Selling_Price__gt=1000)
+            category='T').filter(Selling_Price__gt=1000)
     return render(request, 'pr/T-Shirts.html', {'Ss': Ss, 'totalitem': totalitem})
 
 
@@ -274,7 +256,7 @@ def Brs(request, data=None):
         totalitem = len(Cart.objects.filter(user=request.user))
     if data == None:
         Bh = Product.objects.filter(category='BS')
-    elif data == 'Brush':
+    elif data == 'FaceBrush' or data == 'EyeBrush':
         Bh = Product.objects.filter(category='BS').filter(Manufacturer=data)
     elif data == 'Below':
         Bh = Product.objects.filter(
@@ -283,6 +265,9 @@ def Brs(request, data=None):
         Bh = Product.objects.filter(
             category='BS').filter(Selling_Price__gt=2500)
     return render(request, 'pr/Brush.html', {'Bh': Bh, 'totalitem': totalitem})
+
+
+
 
 
 
