@@ -139,18 +139,19 @@ class ProductDetailView(View):
 
 
 
-class CustomerRegistrationView(View):
-    def get(self, request):
-        form = CustomerRegistrationForm()
-        return render(request, 'pr/customerregistration.html', {'form': form})
-
-    def post(self, request):
+@unauthenticated_user
+def CustomerRegistrationView(request):
+    if request.method == 'POST':
         form = CustomerRegistrationForm(request.POST)
         if form.is_valid():
-            messages.success(request, 'Congratulations!! Registered Successfully')
             user=form.save()
             Profile.objects.create(user=user,username=user.username)
-        return render(request, 'pr/customerregistration.html', {'form': form, 'active': 'btn-primary'})
+            messages.add_message(request, messages.SUCCESS, 'User Registered Successfully')
+            return redirect('/login')
+        else:
+            messages.add_message(request, messages.ERROR, 'Please Provide Correct Details')
+            return render(request, "pr/customerregistration.html", {'form': form})
+    return render(request, 'pr/customerregistration.html', {'form': CustomerRegistrationForm})
 
 
 
@@ -171,9 +172,8 @@ def login_user(request):
                                     password=data['password'])
                 if user is not None:
                     if not user.is_staff:
-                        login(request, user)
-                        
-                        return redirect('home')
+                        login(request, user)     
+                        return redirect('/')
                     elif user.is_staff:
                         login(request, user)
                         return redirect('/admin-dashboard')
